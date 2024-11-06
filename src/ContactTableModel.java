@@ -4,14 +4,10 @@ import java.util.List;
 
 class ContactTableModel extends AbstractTableModel {
     private final List<Contact> contacts;
-    private final String[] columnNames = {"Name", "Phone", "Email"};
+    private final String[] columnNames = {"First Name", "Last Name", "Phone", "Email"};
 
-    public ContactTableModel() {
-        contacts = new ArrayList<>();
-        contacts.add(new Contact("John Doe", "123456789", "john@example.com"));
-        contacts.add(new Contact("Jane Doe", "987654321", "jane@example.com"));
-        contacts.add(new Contact("Jack Doe", "987654321", "jack@example.com"));
-        contacts.add(new Contact("Jacob Doe", "987654321", "jacob@example.com"));
+    public ContactTableModel(List<Contact> contacts) {
+        this.contacts = new ArrayList<>(contacts);
     }
 
     @Override
@@ -28,9 +24,10 @@ class ContactTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Contact contact = contacts.get(rowIndex);
         return switch (columnIndex) {
-            case 0 -> contact.getName();
-            case 1 -> contact.getPhone();
-            case 2 -> contact.getEmail();
+            case 0 -> contact.getFirstName();
+            case 1 -> contact.getLastName();
+            case 2 -> contact.getPhone();
+            case 3 -> contact.getEmail();
             default -> "";
         };
     }
