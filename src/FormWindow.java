@@ -43,6 +43,23 @@ public class FormWindow extends JDialog {
     }
 
     private void addContactToDatabase(String firstName, String lastName, String phone, String email) {
+        if (firstName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "First name is required!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (phone.isEmpty() && email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phone or email is required!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!phone.isEmpty() && phone.length() != 9) {
+            JOptionPane.showMessageDialog(this, "Phone number must be 9 digits!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!email.isEmpty() && !email.toUpperCase().matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$")) {
+            JOptionPane.showMessageDialog(this, "Provided e-mail address is not valid!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         boolean isAdded = dbConnection.addContact(firstName, lastName, phone, email);
         dispose();
         if (isAdded) {
