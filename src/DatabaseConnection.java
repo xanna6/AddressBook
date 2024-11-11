@@ -47,6 +47,23 @@ public class DatabaseConnection {
         return contacts;
     }
 
+    public void addContact(String firstName, String lastName, String phone, String email) {
+        String query = "INSERT INTO contact(first_name, last_name, phone, email) VALUES (?, ?, ?, ?)";
+        try (Connection connection = connect();
+             PreparedStatement statement = connection.prepareStatement(query);) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, phone);
+            statement.setString(4, email);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private List<Contact> mapResultSetToContactList(ResultSet resultSet) throws SQLException {
         List<Contact> contacts = new ArrayList<>();
         while (resultSet.next()) {

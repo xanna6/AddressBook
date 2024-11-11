@@ -14,21 +14,10 @@ public class MainWindow  extends JFrame {
         JLabel label = new JLabel("Contact List", JLabel.CENTER);
         add(label, BorderLayout.NORTH);
 
-        JPanel searchPanel = new JPanel(new BorderLayout(10,0));
-        JTextField searchField = new JTextField();
-        JButton searchButton = new JButton("Search");
-        searchButton.setToolTipText("Search");
-        searchButton.addActionListener(e -> {
-            String searchText = searchField.getText();
-            loadFilteredDataToContactTable(searchText);
-        });
-
-        searchPanel.add(searchField, BorderLayout.CENTER);
-        searchPanel.add(searchButton, BorderLayout.EAST);
+        JPanel searchPanel = getSearchPanel();
 
         JPanel searchContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0,10));
         searchContainer.add(searchPanel);
-        searchPanel.setPreferredSize(new Dimension(300, 20));
 
         contactTable = new JTable();
         dbConnection = new DatabaseConnection();
@@ -48,6 +37,29 @@ public class MainWindow  extends JFrame {
         setVisible(true);
     }
 
+    private JPanel getSearchPanel() {
+        JPanel searchPanel = new JPanel(new BorderLayout(10,0));
+        JTextField searchField = new JTextField(20);
+        JButton searchButton = new JButton("Search");
+        searchButton.setToolTipText("Search");
+        searchButton.addActionListener(e -> {
+            String searchText = searchField.getText();
+            loadFilteredDataToContactTable(searchText);
+        });
+        JButton openFormButton = new JButton("Add contact");
+        openFormButton.addActionListener(e -> openFormWindow());
+
+        searchPanel.add(openFormButton, BorderLayout.EAST);
+        searchPanel.add(searchField, BorderLayout.WEST);
+        searchPanel.add(searchButton, BorderLayout.CENTER);
+        return searchPanel;
+    }
+
+    private void openFormWindow() {
+        FormWindow formWindow = new FormWindow(this, dbConnection);
+        formWindow.setVisible(true);
+    }
+
     private void loadFilteredDataToContactTable(String searchText) {
         List<Contact> filteredContacts = dbConnection.getFilteredContacts(searchText);
         ContactTableModel model = new ContactTableModel(filteredContacts);
@@ -56,7 +68,7 @@ public class MainWindow  extends JFrame {
 
     }
 
-    private void loadDataToContactTable() {
+    void loadDataToContactTable() {
         List<Contact> contacts = dbConnection.getContacts();
         ContactTableModel model = new ContactTableModel(contacts);
 
