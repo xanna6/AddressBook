@@ -47,7 +47,7 @@ public class DatabaseConnection {
         return contacts;
     }
 
-    public void addContact(String firstName, String lastName, String phone, String email) {
+    public boolean addContact(String firstName, String lastName, String phone, String email) {
         String query = "INSERT INTO contact(first_name, last_name, phone, email) VALUES (?, ?, ?, ?)";
         try (Connection connection = connect();
              PreparedStatement statement = connection.prepareStatement(query);) {
@@ -56,12 +56,14 @@ public class DatabaseConnection {
             statement.setString(3, phone);
             statement.setString(4, email);
 
-            statement.executeUpdate();
+            int rowsInserted = statement.executeUpdate();
+
+            return rowsInserted > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-
     }
 
     private List<Contact> mapResultSetToContactList(ResultSet resultSet) throws SQLException {

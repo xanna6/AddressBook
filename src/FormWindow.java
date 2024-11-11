@@ -43,8 +43,13 @@ public class FormWindow extends JDialog {
     }
 
     private void addContactToDatabase(String firstName, String lastName, String phone, String email) {
-        dbConnection.addContact(firstName, lastName, phone, email);
-        mainWindow.loadDataToContactTable();
+        boolean isAdded = dbConnection.addContact(firstName, lastName, phone, email);
         dispose();
+        if (isAdded) {
+            JOptionPane.showMessageDialog(mainWindow, "Contact added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(mainWindow, "Failed to add contact.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        mainWindow.loadDataToContactTable();
     }
 }
