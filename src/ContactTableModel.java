@@ -36,4 +36,8 @@ class ContactTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         return columnNames[column];
     }
+
+    public Contact getContactAt(int row) {
+        return contacts.get(row);
+    }
 }

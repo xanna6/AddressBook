@@ -1,14 +1,28 @@
 public class Contact {
+    private int id;
     private String firstName;
     private String lastName;
     private String phone;
     private String email;
 
     public Contact(String firstName, String lastName, String phone, String email) {
+        this(-1, firstName, lastName, phone, email);
+    }
+
+    public Contact(int id, String firstName, String lastName, String phone, String email) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {

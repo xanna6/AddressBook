@@ -13,7 +13,7 @@ public class DatabaseConnection {
 
     public List<Contact> getContacts() {
         List<Contact> contacts = new ArrayList<>();
-        String query = "SELECT first_name, last_name, phone, email FROM contact";
+        String query = "SELECT id, first_name, last_name, phone, email FROM contact";
         try (Connection connection = connect();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
@@ -27,7 +27,8 @@ public class DatabaseConnection {
 
     public List<Contact> getFilteredContacts(String searchText) {
         List<Contact> contacts = new ArrayList<>();
-        String query = "SELECT first_name, last_name, phone, email FROM contact WHERE first_name LIKE ? OR last_name LIKE ? OR phone LIKE ? OR email LIKE ?";
+        String query = "SELECT id, first_name, last_name, phone, email FROM contact " +
+                "WHERE first_name LIKE ? OR last_name LIKE ? OR phone LIKE ? OR email LIKE ?";
         String searchPattern = "%" + searchText + "%";
         try (Connection connection = connect();
              PreparedStatement statement = connection.prepareStatement(query);) {
@@ -47,14 +48,34 @@ public class DatabaseConnection {
         return contacts;
     }
 
-    public boolean addContact(String firstName, String lastName, String phone, String email) {
+    public boolean addContact(Contact contact) {
         String query = "INSERT INTO contact(first_name, last_name, phone, email) VALUES (?, ?, ?, ?)";
         try (Connection connection = connect();
              PreparedStatement statement = connection.prepareStatement(query);) {
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(3, phone);
-            statement.setString(4, email);
+            statement.setString(1, contact.getFirstName());
+            statement.setString(2, contact.getLastName());
+            statement.setString(3, contact.getPhone());
+            statement.setString(4, contact.getEmail());
+
+            int rowsInserted = statement.executeUpdate();
+
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean editContact(Contact contact) {
+        String query = "UPDATE contact SET first_name = ?, last_name = ?, phone = ?, email = ? WHERE id = ?";
+        try (Connection connection = connect();
+             PreparedStatement statement = connection.prepareStatement(query);) {
+            statement.setString(1, contact.getFirstName());
+            statement.setString(2, contact.getLastName());
+            statement.setString(3, contact.getPhone());
+            statement.setString(4, contact.getEmail());
+            statement.setString(5, String.valueOf(contact.getId()));
 
             int rowsInserted = statement.executeUpdate();
 
@@ -69,12 +90,13 @@ public class DatabaseConnection {
     private List<Contact> mapResultSetToContactList(ResultSet resultSet) throws SQLException {
         List<Contact> contacts = new ArrayList<>();
         while (resultSet.next()) {
+            int id = resultSet.getInt("id");
             String firstName = resultSet.getString("first_name");
             String lastName = resultSet.getString("last_name");
             String phone = resultSet.getString("phone");
             String email = resultSet.getString("email");
 
-            contacts.add(new Contact(firstName, lastName, phone, email));
+            contacts.add(new Contact(id, firstName, lastName, phone, email));
         }
         return contacts;
     }

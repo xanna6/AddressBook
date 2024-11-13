@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.List;
 
@@ -34,6 +32,11 @@ public class MainWindow  extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
 
         JButton editButton = new JButton("Edit");
+        editButton.addActionListener(e -> {
+            int selectedRow = contactTable.getSelectedRow();
+            Contact selectedContact = ((ContactTableModel) contactTable.getModel()).getContactAt(selectedRow);
+            openFormWindow(selectedContact);
+        });
         JButton deleteButton = new JButton("Delete");
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(editButton);
@@ -44,7 +47,7 @@ public class MainWindow  extends JFrame {
         contactTable.getSelectionModel().addListSelectionListener(e -> buttonPanel.setVisible(contactTable.getSelectedRow() != -1));
 
         pack();
-        setSize(600, 300);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -69,6 +72,11 @@ public class MainWindow  extends JFrame {
 
     private void openFormWindow() {
         FormWindow formWindow = new FormWindow(this, dbConnection);
+        formWindow.setVisible(true);
+    }
+
+    private void openFormWindow(Contact selectedContact) {
+        FormWindow formWindow = new FormWindow(this, dbConnection, selectedContact);
         formWindow.setVisible(true);
     }
 
