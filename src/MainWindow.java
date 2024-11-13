@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.List;
 
@@ -30,6 +32,16 @@ public class MainWindow  extends JFrame {
         mainPanel.add(tableScrollPane);
 
         add(mainPanel, BorderLayout.CENTER);
+
+        JButton editButton = new JButton("Edit");
+        JButton deleteButton = new JButton("Delete");
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(editButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.setVisible(false);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        contactTable.getSelectionModel().addListSelectionListener(e -> buttonPanel.setVisible(contactTable.getSelectedRow() != -1));
 
         pack();
         setSize(600, 300);
