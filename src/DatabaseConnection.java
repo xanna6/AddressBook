@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ public class DatabaseConnection {
 
             contacts = mapResultSetToContactList(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            showErrorMessage("An error occurred while getting the contacts. Please try again.");
         }
         return contacts;
     }
@@ -42,7 +44,7 @@ public class DatabaseConnection {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            showErrorMessage("An error occurred while getting the contacts. Please try again.");
         }
 
         return contacts;
@@ -62,7 +64,7 @@ public class DatabaseConnection {
             return rowsInserted > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            showErrorMessage("An error occurred while adding contact. Please try again.");
             return false;
         }
     }
@@ -82,7 +84,7 @@ public class DatabaseConnection {
             return rowsInserted > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            showErrorMessage("An error occurred while editing contact. Please try again.");
             return false;
         }
     }
@@ -97,7 +99,7 @@ public class DatabaseConnection {
             isDeleted = result > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            showErrorMessage("An error occurred while deleting contact. Please try again.");
         }
         return isDeleted;
     }
@@ -114,5 +116,9 @@ public class DatabaseConnection {
             contacts.add(new Contact(id, firstName, lastName, phone, email));
         }
         return contacts;
+    }
+
+    public void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

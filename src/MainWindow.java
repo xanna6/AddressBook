@@ -11,6 +11,8 @@ public class MainWindow  extends JFrame {
         setTitle("AddressBook");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setSize(600, 400);
+        setLocationRelativeTo(null);
 
         JLabel label = new JLabel("Contact List", JLabel.CENTER);
         add(label, BorderLayout.NORTH);
@@ -19,7 +21,6 @@ public class MainWindow  extends JFrame {
 
         contactTable = new JTable();
         dbConnection = new DatabaseConnection();
-        loadDataToContactTable();
         JScrollPane tableScrollPane = new JScrollPane(contactTable);
 
         JPanel mainPanel = new JPanel();
@@ -49,10 +50,8 @@ public class MainWindow  extends JFrame {
 
         contactTable.getSelectionModel().addListSelectionListener(e -> buttonPanel.setVisible(contactTable.getSelectedRow() != -1));
 
-        pack();
-        setSize(600, 400);
-        setLocationRelativeTo(null);
         setVisible(true);
+        loadDataToContactTable();
     }
 
     private JPanel getSearchPanel() {
