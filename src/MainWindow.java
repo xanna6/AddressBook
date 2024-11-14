@@ -5,6 +5,7 @@ import java.util.List;
 public class MainWindow  extends JFrame {
     private final JTable contactTable;
     private final DatabaseConnection dbConnection;
+    private JTextField searchField;
 
     public MainWindow() {
         setTitle("AddressBook");
@@ -16,9 +17,6 @@ public class MainWindow  extends JFrame {
 
         JPanel searchPanel = getSearchPanel();
 
-        JPanel searchContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0,10));
-        searchContainer.add(searchPanel);
-
         contactTable = new JTable();
         dbConnection = new DatabaseConnection();
         loadDataToContactTable();
@@ -26,7 +24,7 @@ public class MainWindow  extends JFrame {
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.add(searchContainer);
+        mainPanel.add(searchPanel);
         mainPanel.add(tableScrollPane);
 
         add(mainPanel, BorderLayout.CENTER);
@@ -58,20 +56,23 @@ public class MainWindow  extends JFrame {
     }
 
     private JPanel getSearchPanel() {
-        JPanel searchPanel = new JPanel(new BorderLayout(10,0));
-        JTextField searchField = new JTextField(20);
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,10,15));
+        this.searchField = new JTextField(20);
         JButton searchButton = new JButton("Search");
         searchButton.setToolTipText("Search");
         searchButton.addActionListener(e -> {
-            String searchText = searchField.getText();
+            String searchText = this.searchField.getText();
             loadFilteredDataToContactTable(searchText);
         });
+        JButton showAllButton = new JButton("Show all");
+        showAllButton.addActionListener(e -> loadDataToContactTable());
         JButton openFormButton = new JButton("Add contact");
         openFormButton.addActionListener(e -> openFormWindow());
 
-        searchPanel.add(openFormButton, BorderLayout.EAST);
-        searchPanel.add(searchField, BorderLayout.WEST);
-        searchPanel.add(searchButton, BorderLayout.CENTER);
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        searchPanel.add(showAllButton);
+        searchPanel.add(openFormButton);
         return searchPanel;
     }
 
@@ -108,5 +109,6 @@ public class MainWindow  extends JFrame {
         ContactTableModel model = new ContactTableModel(contacts);
 
         contactTable.setModel(model);
+        searchField.setText("");
     }
 }
