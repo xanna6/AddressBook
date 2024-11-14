@@ -87,6 +87,21 @@ public class DatabaseConnection {
         }
     }
 
+    public boolean deleteContact(int id) {
+        boolean isDeleted = false;
+        String query = "DELETE FROM contact WHERE id = " + id  + ";";
+        try (Connection connection = connect();
+             Statement statement = connection.createStatement();) {
+
+            int result = statement.executeUpdate(query);
+            isDeleted = result > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isDeleted;
+    }
+
     private List<Contact> mapResultSetToContactList(ResultSet resultSet) throws SQLException {
         List<Contact> contacts = new ArrayList<>();
         while (resultSet.next()) {

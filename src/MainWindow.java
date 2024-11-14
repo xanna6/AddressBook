@@ -38,6 +38,11 @@ public class MainWindow  extends JFrame {
             openFormWindow(selectedContact);
         });
         JButton deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(e -> {
+            int selectedRow = contactTable.getSelectedRow();
+            Contact selectedContact = ((ContactTableModel) contactTable.getModel()).getContactAt(selectedRow);
+            deleteContact(selectedContact.getId());
+        });
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
@@ -78,6 +83,16 @@ public class MainWindow  extends JFrame {
     private void openFormWindow(Contact selectedContact) {
         FormWindow formWindow = new FormWindow(this, dbConnection, selectedContact);
         formWindow.setVisible(true);
+    }
+
+    private void deleteContact(int id) {
+        boolean isDeleted = dbConnection.deleteContact(id);
+        if (isDeleted) {
+            JOptionPane.showMessageDialog(this, "Contact deleted!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to delete contact.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        loadDataToContactTable();
     }
 
     private void loadFilteredDataToContactTable(String searchText) {
