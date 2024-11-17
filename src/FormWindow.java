@@ -2,9 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FormWindow extends JDialog {
-    DatabaseConnection dbConnection;
-    MainWindow mainWindow;
-    Contact contact;
+    private final DatabaseConnection dbConnection;
+    private final MainWindow mainWindow;
+    private Contact contact;
 
     public FormWindow(MainWindow parent, DatabaseConnection dbConnection) {
         this(parent, dbConnection, null);
@@ -22,21 +22,10 @@ public class FormWindow extends JDialog {
 
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 5, 5));
 
-        formPanel.add(new JLabel("First Name:"));
-        JTextField firstNameField = new JTextField();
-        formPanel.add(firstNameField);
-
-        formPanel.add(new JLabel("Last Name:"));
-        JTextField lastNameField = new JTextField();
-        formPanel.add(lastNameField);
-
-        formPanel.add(new JLabel("Phone:"));
-        JTextField phoneField = new JTextField();
-        formPanel.add(phoneField);
-
-        formPanel.add(new JLabel("Email:"));
-        JTextField emailField = new JTextField();
-        formPanel.add(emailField);
+        JTextField firstNameField = addField(formPanel, "First Name:");
+        JTextField lastNameField = addField(formPanel, "Last Name:");
+        JTextField phoneField = addField(formPanel, "Phone:");
+        JTextField emailField = addField(formPanel, "Email:");
 
         add(formPanel, BorderLayout.CENTER);
 
@@ -48,16 +37,21 @@ public class FormWindow extends JDialog {
         }
 
         JButton submitButton = new JButton(contact == null ? "Add" : "Save");
-        submitButton.addActionListener(e -> {
-            saveContact(firstNameField.getText(), lastNameField.getText(), phoneField.getText(), emailField.getText());
-        });
+        submitButton.addActionListener(e -> saveContact(firstNameField.getText(), lastNameField.getText(), phoneField.getText(), emailField.getText()));
 
         add(submitButton, BorderLayout.SOUTH);
     }
 
+    private static JTextField addField(JPanel formPanel, String label) {
+        formPanel.add(new JLabel(label));
+        JTextField emailField = new JTextField();
+        formPanel.add(emailField);
+        return emailField;
+    }
+
     private void saveContact(String firstName, String lastName, String phone, String email) {
-        boolean isSaved = false;
-        if (validateForm(firstName, lastName, phone, email)) {
+        boolean isSaved;
+        if (validateForm(firstName, phone, email)) {
             if (contact == null) {
                 contact = new Contact(firstName, lastName, phone, email);
                 isSaved = dbConnection.addContact(contact);
@@ -81,7 +75,7 @@ public class FormWindow extends JDialog {
         mainWindow.loadDataToContactTable();
     }
 
-    private boolean validateForm(String firstName, String lastName, String phone, String email) {
+    private boolean validateForm(String firstName, String phone, String email) {
         if (firstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "First name is required!", "Error", JOptionPane.ERROR_MESSAGE);
             return false;

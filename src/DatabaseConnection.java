@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class DatabaseConnection {
                 "WHERE first_name LIKE ? OR last_name LIKE ? OR phone LIKE ? OR email LIKE ?";
         String searchPattern = "%" + searchText + "%";
         try (Connection connection = connect();
-             PreparedStatement statement = connection.prepareStatement(query);) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, searchPattern);
             statement.setString(2, searchPattern);
             statement.setString(3, searchPattern);
@@ -53,7 +52,7 @@ public class DatabaseConnection {
     public boolean addContact(Contact contact) {
         String query = "INSERT INTO contact(first_name, last_name, phone, email) VALUES (?, ?, ?, ?)";
         try (Connection connection = connect();
-             PreparedStatement statement = connection.prepareStatement(query);) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, contact.getFirstName());
             statement.setString(2, contact.getLastName());
             statement.setString(3, contact.getPhone());
@@ -72,7 +71,7 @@ public class DatabaseConnection {
     public boolean editContact(Contact contact) {
         String query = "UPDATE contact SET first_name = ?, last_name = ?, phone = ?, email = ? WHERE id = ?";
         try (Connection connection = connect();
-             PreparedStatement statement = connection.prepareStatement(query);) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, contact.getFirstName());
             statement.setString(2, contact.getLastName());
             statement.setString(3, contact.getPhone());
@@ -93,7 +92,7 @@ public class DatabaseConnection {
         boolean isDeleted = false;
         String query = "DELETE FROM contact WHERE id = " + id  + ";";
         try (Connection connection = connect();
-             Statement statement = connection.createStatement();) {
+             Statement statement = connection.createStatement()) {
 
             int result = statement.executeUpdate(query);
             isDeleted = result > 0;

@@ -30,6 +30,16 @@ public class MainWindow  extends JFrame {
 
         add(mainPanel, BorderLayout.CENTER);
 
+        JPanel buttonPanel = getButtonPanel();
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        contactTable.getSelectionModel().addListSelectionListener(e -> buttonPanel.setVisible(contactTable.getSelectedRow() != -1));
+
+        setVisible(true);
+        loadDataToContactTable();
+    }
+
+    private JPanel getButtonPanel() {
         JButton editButton = new JButton("Edit");
         editButton.addActionListener(e -> {
             int selectedRow = contactTable.getSelectedRow();
@@ -46,12 +56,7 @@ public class MainWindow  extends JFrame {
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
         buttonPanel.setVisible(false);
-        add(buttonPanel, BorderLayout.SOUTH);
-
-        contactTable.getSelectionModel().addListSelectionListener(e -> buttonPanel.setVisible(contactTable.getSelectedRow() != -1));
-
-        setVisible(true);
-        loadDataToContactTable();
+        return buttonPanel;
     }
 
     private JPanel getSearchPanel() {
