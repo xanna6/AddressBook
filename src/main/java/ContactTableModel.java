@@ -12,7 +12,7 @@ class ContactTableModel extends AbstractTableModel {
     /**tablica nazw kolumn tabeli*/
     private final String[] columnNames = {"First Name", "Last Name", "Phone", "Email"};
 
-    /**tworzy obiekt main.java.ContactTableModel
+    /**tworzy obiekt ContactTableModel
      * @param  contacts lista kontaktów*/
     public ContactTableModel(List<Contact> contacts) {
         this.contacts = new ArrayList<>(contacts);
@@ -63,7 +63,7 @@ class ContactTableModel extends AbstractTableModel {
 
     /**zwraca kontakt z danego wiersza tabeli
      * @param row numer wiersza
-     *@return obiekt klasy main.java.Contact*/
+     *@return obiekt klasy Contact*/
     public Contact getContactAt(int row) {
         return contacts.get(row);
     }

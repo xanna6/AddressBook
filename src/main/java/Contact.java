@@ -15,7 +15,7 @@ public class Contact {
     /**adres e-mail kontaktu */
     private String email;
 
-    /**tworzy obiekt main.java.Contact na podstawie imienia, nazwiska, numeru telefonu i adresu e-mail
+    /**tworzy obiekt Contact na podstawie imienia, nazwiska, numeru telefonu i adresu e-mail
      * @param firstName imię kontaktu
      * @param lastName nazwisko kontaktu
      * @param phone numer telefonu kontaktu
@@ -25,7 +25,7 @@ public class Contact {
         this(-1, firstName, lastName, phone, email);
     }
 
-    /**tworzy obiekt main.java.Contact na podstawie id, imienia, nazwiska, numeru telefonu i adresu e-mail
+    /**tworzy obiekt Contact na podstawie id, imienia, nazwiska, numeru telefonu i adresu e-mail
      * @param id id kontaktu
      * @param firstName imię kontaktu
      * @param lastName nazwisko kontaktu

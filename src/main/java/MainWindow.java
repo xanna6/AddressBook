@@ -13,7 +13,7 @@ public class MainWindow  extends JFrame {
     /**JTextField do wpisywania tekstu do wyszukiwania kontaktów*/
     private JTextField searchField;
 
-    /**konstruktor klasy main.java.MainWindow
+    /**konstruktor klasy MainWindow
      * buduje i wyświetla główne okno aplikacji*/
     public MainWindow() {
         setTitle("AddressBook");
@@ -22,7 +22,7 @@ public class MainWindow  extends JFrame {
         setSize(600, 400);
         setLocationRelativeTo(null);
 
-        JLabel label = new JLabel("main.java.Contact List", JLabel.CENTER);
+        JLabel label = new JLabel("Contact List", JLabel.CENTER);
         add(label, BorderLayout.NORTH);
 
         JPanel searchPanel = getSearchPanel();
@@ -111,7 +111,7 @@ public class MainWindow  extends JFrame {
     private void deleteContact(int id) {
         boolean isDeleted = dbConnection.deleteContact(id);
         if (isDeleted) {
-            JOptionPane.showMessageDialog(this, "main.java.Contact deleted!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Contact deleted!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Failed to delete contact.", "Error", JOptionPane.ERROR_MESSAGE);
         }

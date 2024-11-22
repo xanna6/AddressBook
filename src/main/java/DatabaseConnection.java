@@ -68,7 +68,7 @@ public class DatabaseConnection {
     }
 
     /**wysyła do bazy danych INSERT z nowym kontaktem
-     * @param contact obiekt klasy main.java.Contact
+     * @param contact obiekt klasy Contact
      *@return metoda zwraca boolean informujący o powodzeniu zapisu obiektu do bazy
      */
     public boolean addContact(Contact contact) {
@@ -91,7 +91,7 @@ public class DatabaseConnection {
     }
 
     /**wysyła do bazy danych UPDATE z nowymi wartościami pól kontaktu
-     * @param contact obiekt klasy main.java.Contact
+     * @param contact obiekt klasy Contact
      *@return metoda zwraca boolean informujący o powodzeniu edycji obiektu w bazie
      */
     public boolean editContact(Contact contact) {

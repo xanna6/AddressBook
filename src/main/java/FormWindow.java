@@ -30,7 +30,7 @@ public class FormWindow extends JDialog {
      * @param contact edytowany kontakt
      */
     public FormWindow(MainWindow parent, DatabaseConnection dbConnection, Contact contact) {
-        super(parent, contact == null ? "Add New main.java.Contact" : "Edit main.java.Contact", true);
+        super(parent, contact == null ? "Add New Contact" : "Edit Contact", true);
         this.dbConnection = dbConnection;
         this.mainWindow = parent;
         this.contact = contact;
@@ -61,7 +61,7 @@ public class FormWindow extends JDialog {
         add(submitButton, BorderLayout.SOUTH);
     }
 
-    /**dodaje do panelu w formularzu TextField wraz z labele
+    /**dodaje do panelu w formularzu {@link TextField} wraz z labelem
      * @param formPanel panel z polami formularza
      * @param label tekst labela
      * @return metoda zwraca dodany textField*/
@@ -98,7 +98,7 @@ public class FormWindow extends JDialog {
 
         dispose();
         if (isSaved) {
-            JOptionPane.showMessageDialog(mainWindow, "main.java.Contact saved!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(mainWindow, "Contact saved!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(mainWindow, "Failed to save contact.", "Error", JOptionPane.ERROR_MESSAGE);
         }
